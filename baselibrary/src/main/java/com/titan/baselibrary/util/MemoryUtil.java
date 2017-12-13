@@ -9,20 +9,23 @@ import java.io.File;
  * 地址工具类
  */
 
-public class StorageUtil {
+public class MemoryUtil {
 
-    private Context mContext;
-    private static StorageUtil instance;
-
-    private static synchronized StorageUtil getInstance(Context context){
-        if(instance == null){
-            instance = new StorageUtil(context);
-        }
-        return instance;
+    private static Context mContext;
+    private static MemoryUtil instance;
+    /**
+     * 内部类实现单例模式
+     * 延迟加载，减少内存开销
+     * @author xuzhaohu
+     *
+     */
+    private static class LazyHolder {
+        private static final MemoryUtil INSTANCE = new MemoryUtil();
     }
 
-    private StorageUtil(Context context){
-        this.mContext = context;
+    public static final MemoryUtil getInstance(Context context) {
+        mContext = context;
+        return LazyHolder.INSTANCE;
     }
 
     /**获取文件夹地址
