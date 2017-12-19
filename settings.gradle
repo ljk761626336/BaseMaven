@@ -1,1 +1,1 @@
-include ':app', ':baselibrary'
+include ':app', ':baselibrary', ':proj4android', ':versionupdata', ':photopicker'
