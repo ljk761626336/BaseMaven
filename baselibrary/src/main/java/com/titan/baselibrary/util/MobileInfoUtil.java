@@ -1,9 +1,12 @@
 package com.titan.baselibrary.util;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 
 import java.io.FileReader;
@@ -29,17 +32,26 @@ public class MobileInfoUtil {
             //实例化TelephonyManager对象
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             //获取IMEI号
-            String imei = telephonyManager.getDeviceId();
-            //在次做个验证，也不是什么时候都能获取到的啊
-            if (imei == null) {
-                imei = "";
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                String imei = telephonyManager.getDeviceId();
+                //在次做个验证，也不是什么时候都能获取到的啊
+                if (imei == null) {
+                    imei = "";
+                }
+                return imei;
             }
-            return imei;
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
-
+        return "";
     }
 
     /**
@@ -49,15 +61,25 @@ public class MobileInfoUtil {
         try {
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             //获取IMSI号
-            String imsi = telephonyManager.getSubscriberId();
-            if (null == imsi) {
-                imsi = "";
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                String imsi = telephonyManager.getSubscriberId();
+                if (null == imsi) {
+                    imsi = "";
+                }
+                return imsi;
             }
-            return imsi;
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
+        return "";
     }
 
     /**
